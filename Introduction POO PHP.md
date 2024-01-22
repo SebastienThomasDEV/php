@@ -1,6 +1,5 @@
-D'accord, je vais recentrer le cours sur les concepts fondamentaux de la programmation orientée objet en PHP et ajouter une section dédiée aux design patterns, en mettant l'accent sur le Singleton. Voici un plan de cours révisé avec des détails et des exemples de code plus approfondis pour les sections restantes.
 
-### Sommaire Révisé
+### Sommaire
 
 1. **Introduction à la Programmation Orientée Objet**
    - Définition et Principes de Base
@@ -18,6 +17,12 @@ D'accord, je vais recentrer le cours sur les concepts fondamentaux de la program
 4. **Design Patterns en POO**
    - Présentation générale des Design Patterns
    - Le Pattern Singleton
+5. Encapsulation & Gestion des Accès
+6. Composition vs Héritage
+7. Méthodes et Propriétés Statiques
+8. Méthodes Magiques
+9. Espace de Noms (Namespaces)
+10.  Conclusion et Pratiques Avancées
 
 ---
 
@@ -139,8 +144,128 @@ var_dump($db1 === $db2); // true
 
 Dans cet exemple, le pattern Singleton assure que l'objet `BaseDeDonnees` est unique, peu importe combien de fois `getInstance` est appelé.
 
----
+### 5. Encapsulation et Gestion des Accès
 
-Ce plan révisé se concentre sur les aspects fondamentaux de la POO en PHP, tout en introduisant une section spéciale sur les design patterns, en particulier
+#### Encapsulation
 
- le Singleton. Chaque section comprend des explications détaillées et des exemples de code pertinents pour aider à la compréhension des concepts.
+L'encapsulation est le concept de regrouper les données et les méthodes qui manipulent ces données au sein d'une même unité (classe), et de contrôler leur accès de l'extérieur.
+
+```php
+class CompteBancaire {
+    private $solde;
+
+    public function __construct($montantInitial) {
+        $this->solde = $montantInitial;
+    }
+
+    public function deposer($montant) {
+        $this->solde += $montant;
+    }
+
+    public function retirer($montant) {
+        if ($montant <= $this->solde) {
+            $this->solde -= $montant;
+        } else {
+            echo "Solde insuffisant";
+        }
+    }
+
+    public function getSolde() {
+        return $this->solde;
+    }
+}
+```
+
+#### Gestion des Accès
+
+Les getters et setters sont des méthodes publiques utilisées pour accéder ou modifier les propriétés privées ou protégées d'une classe.
+
+```php
+class Personne {
+    private $nom;
+
+    public function getNom() {
+        return $this->nom;
+    }
+
+    public function setNom($nom) {
+        $this->nom = $nom;
+    }
+}
+```
+
+### 6. Composition vs Héritage
+
+#### Composition
+
+La composition est un principe de conception où une classe est composée d'objets d'autres classes, plutôt que d'hériter de ces classes. Cela permet une plus grande flexibilité et réduit le couplage fort.
+
+```php
+class Moteur {
+    // ...
+}
+
+class Voiture {
+    private $moteur;
+
+    public function __construct(Moteur $moteur) {
+        $this->moteur = $moteur;
+    }
+}
+```
+
+#### Héritage
+
+L'héritage est un mécanisme où une classe (fille) hérite des propriétés et méthodes d'une autre classe (parent). Il est utile pour la réutilisation du code, mais doit être utilisé judicieusement pour éviter la complexité excessive.
+
+### 7. Méthodes et Propriétés Statiques
+
+Les méthodes et propriétés statiques appartiennent à la classe elle-même plutôt qu'à une instance de la classe. Elles sont accessibles sans créer une instance de la classe.
+
+```php
+class Mathematiques {
+    public static function additionner($a, $b) {
+        return $a + $b;
+    }
+}
+
+$resultat = Mathematiques::additionner(5, 10); // Pas besoin d'instancier
+```
+
+### 8. Méthodes Magiques
+
+PHP fournit un ensemble de méthodes "magiques" qui ont des comportements spéciaux. Les plus courantes sont `__construct()`, `__destruct()`, `__get()`, `__set()`, `__call()`, etc.
+
+```php
+class Exemple {
+    public function __get($propriete) {
+        echo "Lecture de la propriété non accessible: $propriete";
+    }
+
+    public function __set($propriete, $valeur) {
+        echo "Écriture dans la propriété non accessible: $propriete";
+    }
+}
+```
+
+### 9. Espace de Noms (Namespaces)
+
+Les namespaces en PHP sont utilisés pour organiser et regrouper des classes, interfaces, fonctions et constantes pour éviter les conflits de noms.
+
+```php
+namespace MonProjet\Utilitaires;
+
+class Outil {
+    // ...
+}
+
+// Utilisation
+$outil = new \MonProjet\Utilitaires\Outil();
+```
+
+### 10. Conclusion et Pratiques Avancées
+
+- **Utilisation des exceptions** : Pour une gestion d'erreur plus robuste.
+- **Patterns de conception avancés** : Comme l'observateur, le décorateur, etc.
+- **Tests unitaires et TDD** (Test-Driven Development) : Pour améliorer la qualité et la fiabilité du code.
+- **Frameworks PHP orientés objet** : Laravel, Symfony, etc., pour voir la POO en action dans des environnements professionnels.
